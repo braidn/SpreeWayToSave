@@ -10,5 +10,6 @@ group :test do
 	gem 'capybara'
 	gem 'factory_girl_rails'
 	gem 'fivemat'
+	gem 'selenium-webdriver'
 end
 gemspec
