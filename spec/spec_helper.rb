@@ -4,9 +4,10 @@ ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 
 require 'rspec/rails'
+require 'capybara/rspec'
 require 'database_cleaner'
 require 'ffaker'
-require 'capybara/rspec'
+Capybara.javascript_driver = :webkit
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -28,7 +29,6 @@ RSpec.configure do |config|
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
   config.include Spree::Core::UrlHelpers
-
 	config.include Spree::Core::TestingSupport::ControllerRequests, :type => :controller
 	config.include Devise::TestHelpers, :type => :controller
 	config.include Rack::Test::Methods, :type => :requests
@@ -45,18 +45,24 @@ RSpec.configure do |config|
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-	config.before :suite do
+
+	config.before(:each) do
 		DatabaseCleaner.strategy = :truncation
 	end
-	config.before :each do
+
+	config.before(:each) do
 		DatabaseCleaner.start
+		reset_spree_preferences do |spree|
+			spree.default_country_id = create(:country).id
+		end
 	end
-	config.after :each do
+
+	config.after(:each) do
 		DatabaseCleaner.clean
 	end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 end

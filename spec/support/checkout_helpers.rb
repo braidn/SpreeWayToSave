@@ -1,5 +1,5 @@
 def add_to_cart(name, variant=nil)
-	visit spree.root_path
+	visit(spree.root_path)
 	click_link name
 	choose variant if variant
 	click_button 'add-to-cart-button'
@@ -27,7 +27,6 @@ def fill_out_address
 			fill_in 'City', :with => address[:city]
 			fill_in 'Zip', :with => address[:zipcode]
 			fill_in 'Phone', :with => address[:phone]
-			print page.html
 			select attributes_for(:country)[:name], :from => 'Country'
 			fill_in "order_bill_address_attributes_state_name", :with => address[:state][:name]
 

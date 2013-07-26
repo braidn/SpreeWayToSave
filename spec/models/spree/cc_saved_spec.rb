@@ -16,8 +16,9 @@ describe 'spree_credit_cards' do
 		end
 	end
 	context 'active switch' do
-		it "responds to active" do
-			credit_card.should respond_to(:active_card)
-		end
+			it { credit_card.should respond_to(:active_card) }
+	end
+	context 'gateway uri' do
+		it { credit_card.should respond_to :gateway_uri }
 	end
 end
