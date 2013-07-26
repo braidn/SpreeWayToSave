@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe 'spree_credit_cards' do
 	let(:user) { create(:user) }
-	let(:credit_card) { create(:credit_card, gateway_payment_profile_id: 'Gateway1', user_id: user.id) }
+	let(:credit_card) { create(:credit_card, gateway_payment_profile_id: 'Gateway1', 
+														 user_id: user.id, 
+														 gateway_uri: 'uri/v1/939394u9s9fa8da9f8sdff') }
 
 	context 'when a user' do
 		it 'is able to associate themselves to one card' do
@@ -16,7 +18,7 @@ describe 'spree_credit_cards' do
 		end
 	end
 	context 'active switch' do
-			it { credit_card.should respond_to(:active_card) }
+			it { credit_card.should respond_to :active_card }
 	end
 	context 'gateway uri' do
 		it { credit_card.should respond_to :gateway_uri }

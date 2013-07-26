@@ -1,0 +1,32 @@
+ <p data-hook="saved_cards">
+     <h4>Currntly Saved Cards</h4>
+     <table>
+       <thead>
+         <tr>
+           <th>Last 4 Of Card</th>
+           <th>Month</th>
+           <th>Year</th>
+           <th>Pay With This Card</th>
+           <th></th>
+         </tr>
+       </thead>
+       <tbody>
+         <% @cards.each do |card| %>
+	           <tr id="<%= dom_id(card, 'saved_cc')%>" class="<%= cycle('even', 'odd') %>">
+							 <td><%= card.last_digits %></td>
+							 <td><%= card.month %></td>
+							 <td><%= card.year %></td>
+							 <td><%= radio_button_tag "existing_card", card.id %></td>
+							 <td>
+							 <%= link_to t(:delete),
+									 spree.credit_card_url(card),
+									 :remote => true, :method => :delete,
+									 :confirm => 'Are you sure?' %>
+							 </td>
+           </tr>
+         <% end %>
+       </tbody>
+     </table>
+   </p>
+ </div> 
+
